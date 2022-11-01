@@ -6,9 +6,11 @@ export class LeavesController {
 
     constructor(private readonly leaveSrv : LeavesService){}
 
+    /**
+     * * retrive all leave req.
+     */
     @Get()
-    findAll(): string {
-      this.leaveSrv.sendEmial();
-      return "test";
+    findAll() : Promise<any[]> {
+      return this.leaveSrv.findAll();
     }
 }
