@@ -14,9 +14,8 @@ type LeaveSelection = {
   startOn?: boolean;
   endsOn?: boolean;
   employeeId?: boolean;
-  id? : boolean;
-  createdAt? : boolean;
-
+  id?: boolean;
+  createdAt?: boolean;
 };
 
 enum Status {
@@ -32,10 +31,10 @@ export function createLeaveSelection<T extends LeaveSelection>(
 }
 
 export const leaveSelection = createLeaveSelection({
-    employeeId: true,
-    endsOn: true,
-    startOn: true,
-    createdAt: true,
-    leaveId: true,
-    status: true,
-  });
+  employeeId: true,
+  endsOn: true,
+  startOn: true,
+  createdAt: false,
+  leaveId: true,
+  status: true,
+});
