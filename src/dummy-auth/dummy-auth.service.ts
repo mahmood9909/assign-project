@@ -1,24 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { AuthException } from 'src/filters/custom-exception/auth.excpetion';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class DummyAuthService {
-  create() {
-    return 'This action adds a new dummyAuth';
-  }
+  constructor(
+    private readonly prisma  : PrismaService
+  ){}
 
-  findAll() {
-    return `This action returns all dummyAuth`;
-  }
+  async login(email : string) {
+   const employee = await this.prisma.employee.findFirst({
+      where : {
+        email : email
+      }
+    }); 
 
-  findOne(id: number) {
-    return `This action returns a #${id} dummyAuth`;
-  }
+    if(employee) return employee;
 
-  update() {
-    return `This action updates a #$ dummyAuth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dummyAuth`;
+    throw new AuthException({
+      message : `user with email: ${email} not found `,
+      statusCode : HttpStatus.FORBIDDEN
+    });
   }
 }
