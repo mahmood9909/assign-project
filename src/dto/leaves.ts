@@ -1,6 +1,6 @@
 import { CheckSelectKeys } from '../types/generics';
 
-export type LeaveRequestDto = {
+export type CreateLeaveRequestDto = {
   leaveId: string;
   status: Status;
   startOn: Date;
