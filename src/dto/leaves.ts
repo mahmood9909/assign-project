@@ -1,11 +1,17 @@
+import { Status } from '@prisma/client';
+import { IsDateString, IsNotEmpty, Validate } from 'class-validator';
+import { IsBeforeConstraint } from 'src/decorators/date.validator';
 import { CheckSelectKeys } from '../types/generics';
 
-export type CreateLeaveRequestDto = {
-  leaveId: string;
-  status: Status;
+export class CreateLeaveRequestDto {
+  @IsNotEmpty()
+  @IsDateString({}, { each: true })
+  @Validate(IsBeforeConstraint, ['endsOn'])
   startOn: Date;
+
+  @IsDateString({}, { each: true })
+  @IsNotEmpty()
   endsOn: Date;
-  employeeId: number;
 };
 
 type LeaveSelection = {
@@ -18,11 +24,6 @@ type LeaveSelection = {
   createdAt?: boolean;
 };
 
-enum Status {
-  APPROVED,
-  PENDING,
-  REJECTED,
-}
 
 export function createLeaveSelection<T extends LeaveSelection>(
   args: CheckSelectKeys<T, LeaveSelection>,
