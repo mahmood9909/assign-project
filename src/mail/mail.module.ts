@@ -13,7 +13,7 @@ import { join } from 'path';
         port: 587,
         auth:{
           user:"almahdi9909@gmail.com",
-          pass:"xxxxx"
+          pass:"sxtfkzllixhmglek"
         }
       },
       defaults: {

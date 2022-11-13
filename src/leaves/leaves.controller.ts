@@ -1,8 +1,9 @@
-import { Controller, Get, Post, HttpStatus, Body } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Body, Put } from '@nestjs/common';
 import { LeavesService } from './leaves.service';
 import { Headers } from '@nestjs/common';
 import { AuthException } from 'src/filters/custom-exception/auth.excpetion';
 import { CreateLeaveRequestDto } from 'src/dto/leaves';
+import { ProcessReqDto } from 'src/dto/process-req.dto';
 @Controller('leaves')
 export class LeavesController {
 
@@ -23,4 +24,10 @@ export class LeavesController {
 
       return await this.leaveSrv.addNewLeave(leave, headers.email)
     }
+
+    @Put()
+    async processLeaeRequest(@Body() processReqDto : ProcessReqDto){
+      return await this.leaveSrv.processLeaeRequest(processReqDto);
+    }
+
 }

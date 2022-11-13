@@ -1,13 +1,14 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { Status } from '@prisma/client';
 
 @Injectable()
 export class MailService {
   constructor(private readonly mailServ: MailerService) {}
 
-  async sendEmail(userEmail: string) {
+  async sendEmail(array : string[], status : Status) {
     const test = await this.mailServ.sendMail({
-      to: userEmail,
+      to: array,
       subject: 'Welcome to Nice App! Confirm your Email',
       template: './confirmation', 
       context: {
