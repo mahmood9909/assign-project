@@ -10,9 +10,16 @@ export class LeavesService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async findAll(): Promise<any[]> {
+  async findAll(eamil: string): Promise<any[]> {
     return await this.prisma.leavesRequests.findMany({
       select: leaveSelection,
+      where: {
+        Employee: {
+          Manager: {
+            email: eamil,
+          },
+        },
+      },
     });
   }
 

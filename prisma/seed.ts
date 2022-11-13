@@ -72,7 +72,7 @@ async function pushDummyLeaves(){
   
 async function main() {
   console.log('start seeding ...');
-//   await pushStaffList();
+  // await pushStaffList();
   await pushDummyLeaves()
   console.log('end seeding.');
 }
