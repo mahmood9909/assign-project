@@ -26,4 +26,25 @@ export class DummyAuthService {
       statusCode: HttpStatus.FORBIDDEN,
     });
   }
+
+  async adminLogin(email: string) {
+    const employee = await this.prisma.manager.findFirst({
+      select: {
+        id: false,
+        email: true,
+        name: true,
+        username: true,
+      },
+      where: {
+        email: email,
+      },
+    });
+
+    if (employee) return employee;
+
+    throw new AuthException({
+      message: `user with email: ${email} not found `,
+      statusCode: HttpStatus.FORBIDDEN,
+    });
+  }
 }

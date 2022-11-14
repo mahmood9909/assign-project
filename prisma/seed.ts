@@ -29,9 +29,9 @@ const managerList: Array<{
   employee: { name: string; username: string; email: string }[];
 }> = [
   {
-    name: 'abood',
-    username: 'aboodAlzeela',
-    email: 'aboodAlzeela@gmail.com',
+    name: 'hussain',
+    username: 'hussain@',
+    email: 'hussain@gmail.com',
     employee: emp,
   },
 ];

@@ -11,4 +11,11 @@ export class DummyAuthController {
   login(@Body() credentials: LoginDto) {
     return this.dummyAuthService.login(credentials.email);
   }
+
+  @Post('/manager-login')
+  @UseFilters(new HttpExceptionFilter())
+  adminLogin(@Body() credentials: LoginDto) {
+    return this.dummyAuthService.adminLogin(credentials.email);
+  }
+
 }
