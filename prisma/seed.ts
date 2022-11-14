@@ -6,17 +6,17 @@ const prisma = new PrismaClient();
 
 const emp: Array<{ name: string; username: string; email: string }> = [
   {
-    name: 'Fatima',
+    name: 'Fatima Jaffer',
     username: 'Fatima123',
     email: 'fatimamhammed1998@gmail.com',
   },
   {
-    name: 'mahmood',
+    name: 'Ali abbas',
     username: 'mahmood123',
     email: 'mahmood909@gmail.com',
   },
   {
-    name: 'Abbas',
+    name: 'Abbas Kadhem',
     username: 'Abbas123',
     email: 'Abbas@gmail.com',
   },
@@ -96,9 +96,9 @@ async function pushDummyLeaves() {
 
 async function main() {
   console.log('start seeding ...');
-  await pushStaffList();
+  // await pushStaffList();
   // await pushDummyLeaves();
-  // await pushHRStaffList();
+  await pushHRStaffList();
   console.log('end seeding.');
 }
 
