@@ -22,6 +22,7 @@ type LeaveSelection = {
   employeeId?: boolean;
   id?: boolean;
   createdAt?: boolean;
+  Employee : any;
 };
 
 
@@ -32,10 +33,16 @@ export function createLeaveSelection<T extends LeaveSelection>(
 }
 
 export const leaveSelection = createLeaveSelection({
-  employeeId: true,
-  endsOn: true,
-  startOn: true,
-  createdAt: false,
-  leaveId: true,
-  status: true,
+  
+    leaveId : true,
+    endsOn : true,
+    startOn : true,
+    status : true,
+    Employee : {
+      select : {
+        email : true,
+        name : true
+      }
+    }
+  
 });
