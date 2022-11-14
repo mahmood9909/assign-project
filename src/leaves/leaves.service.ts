@@ -72,32 +72,63 @@ export class LeavesService {
   }
 
   async processLeaeRequest(reqDetail: ProcessReqDto) {
-    const req = await this.prisma.leavesRequests.findUnique({
+    const req = await this.prisma.leavesRequests.findFirst({
       where: {
-        leaveId: reqDetail.leaveId,
+        AND : [
+          {
+            leaveId : {
+              equals : reqDetail.leaveId
+            },
+            status : {
+              equals : "PENDING"
+            }
+          }
+        ]
       },
     });
 
     if (!req)
       throw new NotFoundException(
-        `request with id ${reqDetail.leaveId} is not found`,
+        `request with id ${reqDetail.leaveId} is not found , or already processed.`,
       );
 
-      
     const result = await this.prisma.leavesRequests.update({
-    
-      where : {
-        leaveId : reqDetail.leaveId
+      select: {
+        leaveId : true,
+        startOn : true,
+        endsOn : true,
+        Employee: {
+          select: {
+            email: true,
+            name : true
+          },
+        },
       },
-      data : {
-        status : reqDetail.status
-      }
+      where: {
+        leaveId: reqDetail.leaveId,
+      },
+      data: {
+        status: reqDetail.status,
+      },
     });
+
+    const emails: { email: string }[] = await this.prisma.hR.findMany({
+      select: { email: true },
+    });
+
+    const emailList: Array<string> = [
+      result.Employee.email,
+      ...emails.map((em) => em.email),
+    ];
+
+    req.status !== "APPROVED"
+    ? this.meailSrv.sendConfirmationEmail(emailList, result.Employee.name)
+    : this.meailSrv.sendRejectionEmail(emailList, result.Employee.name);
+
 
     return {
       message: `request with id ${req.leaveId} is ${reqDetail.status} successfully.`,
-      objct : result
+      objct: result,
     };
   }
-
 }
