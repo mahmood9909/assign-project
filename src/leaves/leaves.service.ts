@@ -12,7 +12,7 @@ export class LeavesService {
   constructor(
     private readonly meailSrv: MailService,
     private readonly prisma: PrismaService,
-  ) {}
+  ) { }
 
   async findAll(eamil: string): Promise<any[]> {
     return await this.prisma.leavesRequests.findMany({
@@ -74,13 +74,13 @@ export class LeavesService {
   async processLeaeRequest(reqDetail: ProcessReqDto) {
     const req = await this.prisma.leavesRequests.findFirst({
       where: {
-        AND : [
+        AND: [
           {
-            leaveId : {
-              equals : reqDetail.leaveId
+            leaveId: {
+              equals: reqDetail.leaveId
             },
-            status : {
-              equals : "PENDING"
+            status: {
+              equals: "PENDING"
             }
           }
         ]
@@ -94,13 +94,13 @@ export class LeavesService {
 
     const result = await this.prisma.leavesRequests.update({
       select: {
-        leaveId : true,
-        startOn : true,
-        endsOn : true,
+        leaveId: true,
+        startOn: true,
+        endsOn: true,
         Employee: {
           select: {
             email: true,
-            name : true
+            name: true
           },
         },
       },
@@ -116,14 +116,10 @@ export class LeavesService {
       select: { email: true },
     });
 
-    const emailList: Array<string> = [
-      result.Employee.email,
-      ...emails.map((em) => em.email),
-    ];
-
     req.status !== "APPROVED"
-    ? this.meailSrv.sendConfirmationEmail(emailList, result.Employee.name)
-    : this.meailSrv.sendRejectionEmail(emailList, result.Employee.name);
+      ? this.meailSrv.sendConfirmationEmail([result.Employee.email,
+                                              ...emails.map((em) => em.email)], result.Employee.name)
+      : this.meailSrv.sendRejectionEmail([...emails.map((em) => em.email)], result.Employee.name);
 
 
     return {
